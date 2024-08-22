@@ -5,7 +5,8 @@ import os
 from pydub import AudioSegment
 import csv
 
-import syllables
+# for english
+# import syllables
 
 g = GLOBALS()
 

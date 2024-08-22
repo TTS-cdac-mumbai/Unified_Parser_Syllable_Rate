@@ -40,6 +40,7 @@ wav_path = "path_of_wav_folder"
 ```python
 python syl_rate.py
 ```
+4. Output file will be generated in language folder path_of_wav_folder.csv
 
 ## URLS
 [Homepage](https://github.com/vikram-kv/Unified_Parser)
