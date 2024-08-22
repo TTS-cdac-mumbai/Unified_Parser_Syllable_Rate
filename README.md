@@ -26,9 +26,20 @@ parsed_output_string = wordparse(<word : str>, <lsflag : int>, <wfflag : int>, <
 
 ## Examples
 
+check run_parser_all_lang_all_opt.py file for the use of wordparse function.
+
+## Find Syllabe rate 
+1. Make the folder with language name and put the .txt and folder containing the wav files.
+2. The change the following variable in syl_rate.py script
+```python
+language = "language_folder_name"
+text_path = "yourtext.txt"
+wav_path = "path_of_wav_folder"
+```
+3. And then run 
+```python
+python syl_rate.py
+```
+
 ## URLS
 [Homepage](https://github.com/vikram-kv/Unified_Parser)
-
-## Authors
-
-Vikram K V, Dual Degree, Computer Science Dept, IIT Madras.

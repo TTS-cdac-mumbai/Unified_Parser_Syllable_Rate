@@ -34,14 +34,22 @@ for fname in flist:
 for opt in [0,1,2]:
     out_cur = outfolder + '/option-' + str(opt)
     os.mkdir(out_cur)
-
+    anslist=[]
     for l in langs:
         words = langwdmap[l]
-
+        print(words)
+        print(len(words))
+        print(l)
         if opt == 1:
             anslist = Parallel(n_jobs=num_jobs)(delayed(wordparse)(wd, 0, opt, 1) for wd in tqdm(words))
         else:
             anslist = Parallel(n_jobs=num_jobs)(delayed(wordparse)(wd, 0, opt, 0) for wd in tqdm(words))
+        # for wd in range(len(words)):
+        #     temp_ans=wordparse(words[wd], 0, 0, 0)
+        #     print(wd)
+        #     anslist.append(temp_ans)
+
+
 
         with open(f'{out_cur}/{l}.output', 'w') as f:
             for i in range(len(words)):

@@ -10,13 +10,14 @@ from globals import *
 from helpers import *
 import sys
 from sys import exit
+from globals import *
 
 # tokens used
 tokens = ('kaki_c', 'conjsyll2_c', 'fullvowel_b', 'kaki_a', 'kaki_b',  'conjsyll2_b', 'conjsyll2_a',
         'conjsyll1', 'nukchan_b','nukchan_a', 'yarule', 'fullvowel_a', 'vowel')
 
-# parser part
 
+# parser part
 def p_sentence(p):
     '''
     sentence : words
@@ -70,7 +71,9 @@ def p_syltoken1(p):
              | kaki_b
     '''
     if (p.parser.g.flags.DEBUG):
-        print(f'kaki : {p[1]}')
+        print(f'kaki 111 : {p[1]}')
+        print("p 0:", p[0])
+        print("p 1:", p[1])
     p[0] = p[1]
 
 def p_error(p):
@@ -94,7 +97,10 @@ def wordparse(wd : str, lsflag : int, wfflag : int, clearflag : int):
     parser = yacc()
     parser.g = g
     g.flags.DEBUG = False
+    #g.flags.DEBUG = True
     wd = wd.strip('  ') # hidden characters
+    print("The word is: ", wd)
+    
 
     if lsflag not in [0,1] or wfflag not in [0,1,2]:
         print("Invalid input")
@@ -170,8 +176,12 @@ def wordparse(wd : str, lsflag : int, wfflag : int, clearflag : int):
                 count = i
                 break
         start, end = g.words.syllabifiedWordOut, g.words.syllabifiedWordOut
+        print("start1=", start)
+        print("end1=", end)
         end = end[count:]
         start = start[:count]
+        print("start2=", start)
+        print("end2=", end)
         if(g.flags.DEBUG):
             print(f"posi {count} {start} {end}")
         end = SchwaSpecificCorrection(g, end)
@@ -188,11 +198,22 @@ def wordparse(wd : str, lsflag : int, wfflag : int, clearflag : int):
             print(f"final0 : {g.words.syllabifiedWordOut}")
     
     g.words.syllabifiedWordOut = GeminateCorrection(g.words.syllabifiedWordOut, 0)
+    print(f"final2 : {g.words.syllabifiedWordOut}")
     g.words.syllabifiedWordOut = MiddleVowel(g, g.words.syllabifiedWordOut)
-    g.words.syllabifiedWordOut = Syllabilfy(g.words.syllabifiedWordOut)
+    print(f"final3 : {g.words.syllabifiedWordOut}")
+    #g.words.syllabifiedWordOut = Syllabilfy(g.words.syllabifiedWordOut)
     
+    #g.words.syllabifiedWordOut="&k&av&m&av&l"  #added by pranaw for santali
+    print('new g.words.syllabifiedWordOut =', g.words.syllabifiedWordOut) #added
+    if g.langId ==10: #added
+        g.words.syllabifiedWordOut = g.words.syllabifiedWordOut.replace("&av&a", "&av")#added
+        print('modified g.words.syllabifiedWordOut = ', g.words.syllabifiedWordOut)#added
+        g.words.syllabifiedWordOut = Syllabilfy(g.words.syllabifiedWordOut)#added
+    else:#added
+        g.words.syllabifiedWordOut = Syllabilfy(g.words.syllabifiedWordOut) #added
+        
     SplitSyllables(g,g.words.syllabifiedWordOut)
-    
+
     WritetoFiles(g)
     if clearflag == 1:
         t = g.words.outputText
@@ -213,4 +234,7 @@ if __name__ == '__main__':
         exit(-1)
     
     ans = wordparse(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4]))
-    print(ans)
+    print(ans,'***')
+    with open('parser_output.txt', 'w') as output_file:
+    	output_file.write(ans)
+

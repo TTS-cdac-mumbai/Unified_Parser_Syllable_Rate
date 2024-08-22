@@ -1,18 +1,40 @@
+from globals import *
+from helpers import *
+import sys
+from sys import exit
 from typing import NamedTuple
 import re
+
+
 
 def t_kaki_c(t):
     r'(&)*(dxhq|txh|khq|dxq|dxh|zh|tx|th|sx|sh|rx|ph|nx|nj|ng|lx|kq|kh|jh|gq|gh|dx|dh|ch|bh|z|y|y|w|t|s|r|p|n|m|l|k|j|h|g|f|d|c|b)((&)(dxhq|txh|khq|dxq|dxh|zh|tx|th|sx|sh|rx|ph|nx|nj|ng|lx|kq|kh|jh|gq|gh|ex|dx|dh|ch|bh|z|y|w|t|s|r|p|n|m|l|k|j|h|g|f|d|c|b))*'
     s = t
+    
+    print("t is --", t)
+    g = GLOBALS()
+    g.olchikiId = 10
+    wd = sys.argv[1]
+    wds = str(wd)
+    SetlangId(g, wd[1]) # set global langId------>added
+    print(g.langId,'printing inside lex.py')
+    print('g.olchikiId is {}'.format(g.olchikiId))
+    
     ans = ''
     i = 1
     if s[0] == '&':
         ans += '&'
     l = s.split('&')
+    print(l)
     for pch in l:
-        if pch == '':
-            continue
+        if pch == '' :
+            print('g.langId is {}, g.olchikiId is {}'.format(g.langId,g.olchikiId)) #------>added
+            continue  
+        print('ans in lex1=', ans)
+        #ans += f'{pch}&av&#&&'
         ans += f'{pch}&av&#&&'
+        #ans += f'{pch}&#&&'     #--added
+        print('ans in lex2=', ans)
         i += 1
     ans = ans[:(len(ans) - 7)]
     return ans
