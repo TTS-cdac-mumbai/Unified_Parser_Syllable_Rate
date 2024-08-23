@@ -8,7 +8,7 @@
 
 2. Make the folder with language name and put the .txt and folder containing the wav files.
    
-3. Change the following variable in syl_rate.py script
+3. Change the following variable in <em>syl_rate.py</em> script
     ```python
     language = "language_folder_name"
     text_path = "yourtext.txt"
@@ -20,5 +20,5 @@
     python syl_rate.py
     ```
     
-5. Output file will be generated in language folder path_of_wav_folder.csv
+5. Output file will be generated in <em>language_folder/path_of_wav_folder.csv</em>
    Mean, Median and Variance will be displayed in terminal.
